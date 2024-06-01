@@ -23,23 +23,24 @@ class SalasController{
     }
 
     async Atualizar(req,res){
-        try{   
+        try{   const {id} = req.params;
             const sala = new SalasModel(req.body);
-            const SalaAtualizada = await SalasModel.Atualizar(sala);
-             return res.status(200).json(SalaAtualizada);
+            const SalaAtualizada = await SalasModel.Atualizar(sala,id);
+            return res.status(200).json({message:"Sala Atualizada com sucesso"});
         }catch(error){
+            return res.status(500).json({ message: "Erro ao atualizar sala", error: error.message });
 
         }
     }
 
     async Excluir(req,res){
         try{
-                const {id} = req.parms;
+                const {id} = req.params;
                 const excluir = await SalasModel.Excluir(id);
-                return res.stauts(200).json({message:"Sala excluida com sucesso!"})
+                return res.status(200).json({message:"Sala excluida com sucesso!"})
 
         }catch(error){
-            return res.stauts(500).json({message:"Erro ao excluir sala", error: error.message});
+            return res.status(500).json({message:"Erro ao excluir sala", error: error.message});
 
         }
 

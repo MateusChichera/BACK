@@ -33,8 +33,9 @@ class ClienteController {
     }
     async Atualizar(req, res) {
         try {
+            const { id } = req.params;
             const cliente = new ClienteModel(req.body);
-            const clienteAtualizado = await ClienteModel.Atualizar(cliente);
+            const clienteAtualizado = await ClienteModel.Atualizar(cliente,id);
             return res.status(200).json({message:"Cliente Atualizado com sucesso"});
         } catch (error) {
             return res.status(500).json({ message: "Erro ao atualizar cliente", error: error.message });

@@ -7,6 +7,7 @@ const port = 4001;
 //ROTAS
 const clienteRotas = require('./Routers/ClienteRoutes');
 const salasRotas = require('./Routers/SalasRoutes');
+const planosRotas = require('./Routers/PlanosRoutes');
 
 
 app.use(express.json());
@@ -14,4 +15,6 @@ app.use(cors());
 
 app.use(salasRotas);
 app.use(clienteRotas);
+app.use(planosRotas);
+
 app.listen(port,()=>`Executando na porta 3001`)

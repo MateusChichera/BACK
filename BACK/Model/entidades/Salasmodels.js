@@ -30,13 +30,13 @@ class SalasModel{
             return sala;
         }
     
-        static async Atualizar(sala) {
+        static async Atualizar(sala,id) {
             const sql = `
                 UPDATE salas
                 SET sal_tipo = ?, sal_nome = ?, sal_andar = ?, sal_cap = ?, sal_obs = ?
                 WHERE sal_id = ?
             `;
-            const params = [sala.sal_tipo, sala.sal_nome, sala.sal_andar, sala.sal_cap, sala.sal_obs, sala.sal_id];
+            const params = [sala.sal_tipo, sala.sal_nome, sala.sal_andar, sala.sal_cap, sala.sal_obs, id];
             const result = await db.executaComandoNonQuery(sql, params);
             return result.affectedRows > 0;
         }
