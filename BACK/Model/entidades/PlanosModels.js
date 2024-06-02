@@ -18,6 +18,11 @@ class PlanosModel{
         const results = await db.executaComando(sql);
         return results.map(row => new PlanosModel(row));
     }
+    static async ObterID(id){
+        const sql = 'SELECT * FROM planos WHERE pla_id  = ?'
+        const results = await db.executaComando(sql,id);
+        return results.map(row => new PlanosModel(row));
+    }
 
     static async Inserir(Plano){
         const sql = 'INSERT INTO planos (pla_nome, pla_valor,pla_dias) values (?,?,?)';

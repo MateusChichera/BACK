@@ -11,9 +11,21 @@ class PlanosController{
             return res.status(500).json({message:"Erro ao obter planos",error:error.message});
         }}
 
+        async ObterID(req,res){
+            try{    
+                const {id} = req.params;
+                const plano = await PlanosModel.ObterID(id);
+                return res.status(200).json(plano);
+    
+            }catch(error){
+                return res.status(500).json({message:"Erro ao obter planos",error:error.message});
+            }}
+
     async Inserir(req,res){
         try{
                 const plano = new PlanosModel(req.body)
+                console.log("dentro da controller",plano);
+
                 const PlanoInserido = await PlanosModel.Inserir(plano);
                 return res.status(200).json(PlanoInserido);
         }catch(error){
@@ -24,6 +36,8 @@ class PlanosController{
         try{    
             const {id} = req.params;
             const plano = new PlanosModel(req.body);
+            console.log("ID:",id);
+            console.log("Plano",plano);
             const PlanoAtualizado = await PlanosModel.Atualizar(plano,id);
             return res.status(200).json({ message: "Plano atualizado com sucesso"});
 

@@ -18,6 +18,11 @@ class HorariosModel{
         const results = await db.executaComando(sql);
         return results.map(row => new HorariosModel(row));
     }
+    static async ObterID(id){
+        const sql = `SELECT * FROM horarios WHERE hor_id = ?`
+        const results = await db.executaComando(sql,id);
+        return results.map(row => new HorariosModel(row));
+    }
     static async Inserir(horario) {
         // Formata os dias da semana, se hor_dias não for vazio ou nulo
                // Adiciona vírgulas entre os dias da semana
@@ -28,8 +33,9 @@ class HorariosModel{
                });
                hor_dias = hor_dias.startsWith(',') ? hor_dias.slice(1) : hor_dias;
 
+               console.log("dentro da model", hor_dias);
         const sql = 'INSERT INTO horarios (hor_tipo, hor_dias, hor_inicio, hor_fim) VALUES (?, ?, ?, ?)';
-        const params = [horario.hor_tipo, hor_dias, horario.hor_inicio, horario.hor_fim];
+        const params = [horario.hor_tipo, horario.hor_dias, horario.hor_inicio, horario.hor_fim];
         const result = await db.executaComandoNonQuery(sql, params);
         return horario; // Retorna o horario registrado
     }
@@ -42,8 +48,8 @@ class HorariosModel{
                   hor_dias = hor_dias.replace(dia, `,${dia}`);
               });
               hor_dias = hor_dias.startsWith(',') ? hor_dias.slice(1) : hor_dias;
-        const sql ='UPDATE horarios set hor_tipo = ?, hor_dias = ?, hor_inicio =?, hor_fim = ? WHERE hor_id'
-        const params = [horario.hor_tipo,hor_dias,horario.hor_inicio,horario.hor_fim,id];
+        const sql ='UPDATE horarios set hor_tipo = ?, hor_dias = ?, hor_inicio =?, hor_fim = ? WHERE hor_id = ?'
+        const params = [horario.hor_tipo,horario.hor_dias,horario.hor_inicio,horario.hor_fim,id];
         const result = await db.executaComandoNonQuery(sql,params);
         return result.affectedRows >0;
     }

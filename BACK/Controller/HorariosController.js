@@ -10,9 +10,21 @@ class HorariosController{
             return res.status(500).json({message: "Erro ao obter horarios", error:error.message});
         }
     }
+    async ObterID(req,res){
+        try{    
+            const {id} = req.params;
+            const horario = await HorariosModel.ObterID(id);
+                return res.status(200).json(horario);
+
+        }catch(error){
+            return res.status(500).json({message: "Erro ao obter horarios", error:error.message});
+        }
+    }
     async Inserir(req,res){
         try{    
             const horario= new HorariosModel(req.body);
+            console.log(horario);
+
             const HorarioInserido = await HorariosModel.Inserir(horario);
             return res.status(200).json(HorarioInserido);
 
