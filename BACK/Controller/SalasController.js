@@ -10,12 +10,22 @@ class SalasController{
             return res.status(500).json({message:"Erro ao obter salas", error: error.message});
         }
     }
+    async ObterID(req,res){
+        try{
+            const {id} =req.params;
+            const sala = await SalasModel.ObterID(id);
+            return res.status(200).json(sala);
+        }catch(error){
+            return res.status(500).json({message:"Erro ao obter salas", error: error.message});
+        }
+    }
 
     async Inserir(req,res){
         try{
                 const sala = new SalasModel(req.body);
+                console.log("DENTRO DA CONTROLLER",sala);
                 const salaInserida = await SalasModel.Inserir(sala);
-                return res.stauts(200).json(salaInserida);
+                return res.status(200).json(salaInserida);
 
         }catch(error){
             return res.status(500).json({message:"Erro ao inserir sala", error:error.message});

@@ -5,8 +5,23 @@ class ClienteController {
 
     async Busca(req, res) {
         try {
+            const nome = req.params.cli_nome;
+
+            console.log("dentro da função buscar:",nome);
+            const clientes = await ClienteModel.Busca(nome);
+            
+            return res.status(200).json(clientes);
+        } catch (error) {
+            return res.status(500).json({ message: "Erro ao obter cliente", error: error.message });
+        }
+    }
+    async BuscaID(req, res) {
+        try {
             const { id } = req.params;
-            const clientes = await ClienteModel.Busca(id);
+
+           
+            const clientes = await ClienteModel.BuscaID(id);
+            
             return res.status(200).json(clientes);
         } catch (error) {
             return res.status(500).json({ message: "Erro ao obter cliente", error: error.message });
@@ -25,6 +40,7 @@ class ClienteController {
     async Inserir(req, res) {
         try {
             const cliente = new ClienteModel(req.body);
+            console.log('Cliente recebido:', cliente);
             const clienteInserido = await ClienteModel.Inserir(cliente);
             return res.status(200).json(clienteInserido);
         } catch (error) {
@@ -34,7 +50,9 @@ class ClienteController {
     async Atualizar(req, res) {
         try {
             const { id } = req.params;
+
             const cliente = new ClienteModel(req.body);
+            console.log("cliente dentro da atualizar",cliente);
             const clienteAtualizado = await ClienteModel.Atualizar(cliente,id);
             return res.status(200).json({message:"Cliente Atualizado com sucesso"});
         } catch (error) {

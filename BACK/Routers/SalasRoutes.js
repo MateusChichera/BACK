@@ -6,6 +6,7 @@ const router = express.Router();
 
 
 router.get('/salas',SalaC.Obter);
+router.get('/salas/:id',SalaC.ObterID);
 router.post('/salas',SalaC.Inserir);
 router.put('/salas/:id',SalaC.Atualizar);
 router.delete('/salas/:id',SalaC.Excluir);

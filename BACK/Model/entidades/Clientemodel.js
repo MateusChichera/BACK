@@ -56,13 +56,16 @@ class ClienteModel {
             INSERT INTO clientes (${fields.join(', ')})
             VALUES (${placeholders.join(', ')})
         `;
-
+            console.log("SQL:",sql);
+            console.log("VALORES",values);
+            
         const result = await db.executaComando(sql, values);
+        console.log("Dentro da model result",result);
         cliente.cli_id = result.insertId;
         return cliente;
     }
 
-    static async Atualizar(cliente) {
+    static async Atualizar(cliente,id) {
         let fields = [];
         let params = [];
         for (let key in cliente) {
@@ -85,17 +88,25 @@ class ClienteModel {
         const params = [cli_id];
         await db.executaComandoNonQuery(sql, params);
     }
-
-    static async Busca(cli_id) {
-        const sql = `SELECT * FROM clientes WHERE cli_id = ?`;
-        const params = [cli_id];
+    static async Busca(cli_nome) {
+        const sql = `SELECT * FROM clientes WHERE cli_nome LIKE ? OR cli_razao LIKE ? OR cli_cpf LIKE ? OR cli_cnpj LIKE ?`;
+        const params = [`%${cli_nome}%`, `%${cli_nome}%`,`%${cli_nome}%`,`%${cli_nome}%`]; // Usamos % para indicar que o nome pode ter qualquer combinação de caracteres antes ou depois da string de busca
         const results = await db.executaComando(sql, params);
         if (results.length > 0) {
-            return new ClienteModel(results[0]);
+            return results.map(row => new ClienteModel(row)); // Mapeia os resultados para objetos ClienteModel
         } else {
             return null;
         }
     }
+    static async BuscaID(id) {
+        const sql = `SELECT * FROM clientes WHERE cli_id = ?`;
+        const params = [id]; // Usamos % para indicar que o nome pode ter qualquer combinação de caracteres antes ou depois da string de busca
+        const results = await db.executaComando(sql, params);
+            return results; 
+        
+    }
+    
+    
 
     static async ObterTodos() {
         const sql = `SELECT * FROM clientes`;

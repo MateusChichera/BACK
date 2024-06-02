@@ -18,6 +18,13 @@ class SalasModel{
             const results = await db.executaComando(sql);
             return results.map(row => new SalasModel(row));
         }
+        static async ObterID(id) {
+            const sql = `SELECT * FROM salas WHERE sal_id = ?`;
+            const params = [id]
+            const results = await db.executaComando(sql,params);
+            return results.map(row => new SalasModel(row));
+        }
+    
     
         static async Inserir(sala) {
             const sql = `
